@@ -145,7 +145,7 @@ public class Gui extends JFrame{
 		setVisible(true);
 	}
 	private void resetButtonHandler(){
-		
+		displayedNode = solv.createRandomNode();
 	}
 	
 	private void goButtonHandler(){

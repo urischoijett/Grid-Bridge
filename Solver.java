@@ -18,6 +18,7 @@ public class Solver {
 	
 	//general DFS solution, compare to goal state line might change
 	public Node solveDFS(Node start){
+		Node.history.clear();
 		Stack<Node> brain = new Stack<Node>();
 		Node currNode;
 		ArrayList<Node> next;
@@ -39,8 +40,8 @@ public class Solver {
 	}
 	
 	public Node createRandomNode(){
-		//int[] randState = {0,1,2,3,4,5,6,7,8};
-		int[] randState = {1,2,3,0,8,4,7,6,5};
+		int[] randState = {0,1,2,3,4,5,6,7,8};
+//		int[] randState = {1,2,3,0,8,4,7,6,5};
 		Node n = new Node(randState);
 		return n;
 	}
@@ -49,6 +50,7 @@ public class Solver {
 	private ArrayList<Node> expandNode(Node currNode){
 		
 		ArrayList<Node> children = new ArrayList<Node>();
+		
 		Node nextNode;
 		
 		int[] newState;
@@ -115,6 +117,67 @@ public class Solver {
 				children.add(nextNode);
 			}
 		}
+		
+		//move downleft
+		if (blankSpot == 1 || blankSpot == 2 ||blankSpot == 4 ||blankSpot == 5 ){
+			newState = currNode.getState().clone();
+			temp = currNode.getState()[blankSpot+2];
+			newState[blankSpot+2] = 0;
+			newState[blankSpot]   = temp;
+			nextNode = new Node(newState);
+			
+			if (nextNode.isValid()){
+				System.out.println("Moving downleft");
+				Node.history.add(nextNode);
+				children.add(nextNode);
+			}
+		}
+		
+		//move downright
+		if (blankSpot == 0 || blankSpot == 1 ||blankSpot == 3 ||blankSpot == 4 ){
+			newState = currNode.getState().clone();
+			temp = currNode.getState()[blankSpot+4];
+			newState[blankSpot+4] = 0;
+			newState[blankSpot]   = temp;
+			nextNode = new Node(newState);
+			
+			if (nextNode.isValid()){
+				System.out.println("Moving downright");
+				Node.history.add(nextNode);
+				children.add(nextNode);
+			}
+		}
+		
+		//move upleft
+		if (blankSpot == 4 || blankSpot == 5 ||blankSpot == 7 ||blankSpot == 8 ){
+			newState = currNode.getState().clone();
+			temp = currNode.getState()[blankSpot-4];
+			newState[blankSpot-4] = 0;
+			newState[blankSpot]   = temp;
+			nextNode = new Node(newState);
+			
+			if (nextNode.isValid()){
+				System.out.println("Moving upleft");
+				Node.history.add(nextNode);
+				children.add(nextNode);
+			}
+		}
+		
+		//move upright
+		if (blankSpot == 3 || blankSpot == 4 ||blankSpot == 6 ||blankSpot == 7 ){
+			newState = currNode.getState().clone();
+			temp = currNode.getState()[blankSpot-2];
+			newState[blankSpot-2] = 0;
+			newState[blankSpot]   = temp;
+			nextNode = new Node(newState);
+			
+			if (nextNode.isValid()){
+				System.out.println("Moving upright");
+				Node.history.add(nextNode);
+				children.add(nextNode);
+			}
+		}
+		
 		System.out.println("adding "+children.size()+" new nodes");
 		Node.history.add(currNode);
 		return children;

@@ -22,6 +22,9 @@ public class Node {
 	public ArrayList<Node> getPath(){
 		return path;
 	}
+	public void addToPath(Node n){
+		path.add(n);
+	}
 	public int[] getState(){
 		return state;
 	}
