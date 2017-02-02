@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Node {
 	public static ArrayList<Node> history = new ArrayList<Node>();
@@ -8,13 +9,11 @@ public class Node {
 	
 	Node(int[] s){
 		state = s;
-		history.add(this);
 	}
 	
 	Node(int[] s, ArrayList<Node> p){
 		state = s;
 		path = p;
-		history.add(this);
 	}
 	
 	public int getDepth(){
@@ -27,5 +26,13 @@ public class Node {
 		return state;
 	}
 
+	public boolean isValid(){
+		for (int i=0; i<Node.history.size(); i++){
+			if (Arrays.equals(state, Node.history.get(i).getState())){
+				return false;
+			}
+		}
+		return true;
+	}
 	
 };

@@ -151,8 +151,6 @@ public class Gui extends JFrame{
 	private void goButtonHandler(){
 		
 		if(dfsButton.isSelected()){
-			
-		} else if(dfsButton.isSelected()) {
 			displayedNode = solv.solveDFS(displayedNode);
 		} else if(bfsButton.isSelected()) {
 			
@@ -173,6 +171,7 @@ public class Gui extends JFrame{
 	
 	private void update(){
 		grid.updateGrid(displayedNode.getState());
+		
 	}
 	
 	
