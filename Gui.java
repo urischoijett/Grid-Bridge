@@ -18,7 +18,7 @@ public class Gui extends JFrame{
 		private Node displayedNode;
 		
 		//contents
-		private GridPanel 	 grid 				= new GridPanel();
+		private GridPanel 	 puzzlePanel		= new GridPanel();
 		private JRadioButton dfsButton 			= new JRadioButton("Depth-First Search");
 		private JRadioButton bfsButton 			= new JRadioButton("Breadth-First Search");
 		private JRadioButton aStarOneButton 	= new JRadioButton("A*1 Search");
@@ -38,6 +38,7 @@ public class Gui extends JFrame{
 		GridBagConstraints c = new GridBagConstraints();
 		
 		displayedNode = solv.createRandomNode(); //initial random node
+		
 		//display panel
 		c.gridx      = 0;
 		c.gridy      = 0;
@@ -46,15 +47,27 @@ public class Gui extends JFrame{
 		c.weightx    = 1;
 		c.weighty    = 1;
 		c.fill       = 1;
-		contentPane.add(grid, c);
+		contentPane.add(puzzlePanel, c);
 				
 		//radio buttons - search type options
 		ButtonGroup searchType = new ButtonGroup();
 		
-		//dfs button
-		dfsButton.setSelected(true);
+		//bfs button
+		bfsButton.setSelected(true);
 		c.gridx      = 1;
 		c.gridy      = 0;
+		c.gridheight = 1;
+		c.gridwidth  = 1;
+		c.weightx    = 0;
+		c.weighty    = 0.2;
+		c.fill       = 0;
+		c.anchor 	 = GridBagConstraints.WEST;
+		searchType.add(bfsButton);
+		contentPane.add(bfsButton, c);
+				
+		//dfs button
+		c.gridx      = 1;
+		c.gridy      = 1;
 		c.gridheight = 1;
 		c.gridwidth  = 1;
 		c.weightx    = 0;
@@ -64,17 +77,7 @@ public class Gui extends JFrame{
 		searchType.add(dfsButton);
 		contentPane.add(dfsButton, c);
 		
-		//bfs button
-		c.gridx      = 1;
-		c.gridy      = 1;
-		c.gridheight = 1;
-		c.gridwidth  = 1;
-		c.weightx    = 0;
-		c.weighty    = 0.2;
-		c.fill       = 0;
-		c.anchor 	 = GridBagConstraints.WEST;
-		searchType.add(bfsButton);
-		contentPane.add(bfsButton, c);
+		
 		
 		//A*1 button
 		c.gridx      = 1;
@@ -146,31 +149,40 @@ public class Gui extends JFrame{
 	}
 	private void resetButtonHandler(){
 		displayedNode = solv.createRandomNode();
+		update();
 	}
 	
 	private void goButtonHandler(){
 		
+		//select search method
 		if(dfsButton.isSelected()){
 			displayedNode = solv.solveDFS(displayedNode);
 		} else if(bfsButton.isSelected()) {
-			
+			displayedNode = solv.solveBFS(displayedNode);
 		} else if(aStarOneButton.isSelected()) {
-			
+			displayedNode = solv.solveAStarOne(displayedNode);
 		} else if(aStarTwoButton.isSelected()) {
 			
 		} else if(aStarThreeButton.isSelected()) {
 			
 		}
-		if (displayedNode.getPath()!=null){ //if it didnt fail, print path to console
+		
+		//print path if successful
+		if (!displayedNode.getPath().isEmpty()){ //if it didnt fail, print path to console
 			for(int i=0; i<displayedNode.getPath().size(); i++){
-				System.out.println(displayedNode.getPath().get(i)+"\n");
+				System.out.print((i)+": ");
+				for (int j=0; j<9; j++){
+					System.out.print(displayedNode.getPath().get(i)[j]+" ");
+				}
+				System.out.print("\n");
 			}
+			System.out.println("depth: " + displayedNode.getDepth());
 		}
 		update();
 	}
 	
 	private void update(){
-		grid.updateGrid(displayedNode.getState());
+		puzzlePanel.updateGrid(displayedNode.getState());
 		
 	}
 	
