@@ -19,29 +19,35 @@ public class Solver {
 	//general DFS solution, compare to goal state line might change
 	public Node solveDFS(Node start){
 		Node.history.clear();
+		Node.history.add(start.getState());
 		Stack<Node> brain = new Stack<Node>();
 		Node currNode;
 		ArrayList<Node> next;
+		ArrayList<int[]> hist;
 		
 		brain.push(start);
 		while(!brain.empty()){
 			System.out.println(brain.size()+" nodes left to expand");
 			currNode = brain.pop();
+			
 			if (Arrays.equals(currNode.getState(), goalState)){ //current node matches goal
 				return currNode;
 			} else {
 				next = expandNode(currNode); //create new nodes
 				if (next!= null){
+					hist = Node.history;
 					brain.addAll(next);
+					
 				}
 			}			
+			
 		}
 		return new Node(failState);	//no node matches goal, return fail
 	}
 	
 	public Node createRandomNode(){
-		int[] randState = {0,1,2,3,4,5,6,7,8};
-//		int[] randState = {1,2,3,0,8,4,7,6,5};
+//		int[] randState = {0,1,2,3,4,5,6,7,8};
+		int[] randState = {2,0,3,1,8,4,7,6,5};
 		Node n = new Node(randState);
 		return n;
 	}
@@ -50,7 +56,6 @@ public class Solver {
 	private ArrayList<Node> expandNode(Node currNode){
 		
 		ArrayList<Node> children = new ArrayList<Node>();
-		
 		Node nextNode;
 		
 		int[] newState;
@@ -60,16 +65,17 @@ public class Solver {
 		
 		//move blank left
 		if (blankSpot%3 != 0){
-			newState = currNode.getState();
+			newState = currNode.getState().clone();
 			temp = currNode.getState()[blankSpot-1];
 			newState[blankSpot-1] = 0;
 			newState[blankSpot]   = temp;
-			nextNode = new Node(newState);
-			
-			if (nextNode.isValid()){
+			//add to possible children if valid
+			if (currNode.isValid(newState)){
 				System.out.println("Moving Left");
-				Node.history.add(nextNode);
-				children.add(nextNode);
+				
+				children.add(new Node(newState, currNode.getPath()));
+				Node.history.add(newState);
+				
 			}
 		}
 		
@@ -79,12 +85,13 @@ public class Solver {
 			temp = currNode.getState()[blankSpot+1];
 			newState[blankSpot+1] = 0;
 			newState[blankSpot]   = temp;
-			nextNode = new Node(newState);
-			
-			if (nextNode.isValid()){
+			//add to possible children if valid
+			if (currNode.isValid(newState)){
 				System.out.println("Moving right");
-				Node.history.add(nextNode);
+				nextNode = new Node(newState, currNode.getPath());
 				children.add(nextNode);
+				Node.history.add(newState);
+				
 			}
 		}
 		
@@ -94,12 +101,13 @@ public class Solver {
 			temp = currNode.getState()[blankSpot-3];
 			newState[blankSpot-3] = 0;
 			newState[blankSpot]   = temp;
-			nextNode = new Node(newState);
-			
-			if (nextNode.isValid()){
+			//add to possible children if valid
+			if (currNode.isValid(newState)){
 				System.out.println("Moving up");
-				Node.history.add(nextNode);
+				nextNode = new Node(newState, currNode.getPath());
 				children.add(nextNode);
+				Node.history.add(newState);
+				
 			}
 		}
 		
@@ -109,12 +117,13 @@ public class Solver {
 			temp = currNode.getState()[blankSpot+3];
 			newState[blankSpot+3] = 0;
 			newState[blankSpot]   = temp;
-			nextNode = new Node(newState);
-			
-			if (nextNode.isValid()){
+			//add to possible children if valid
+			if (currNode.isValid(newState)){
 				System.out.println("Moving down");
-				Node.history.add(nextNode);
+				nextNode = new Node(newState, currNode.getPath());
 				children.add(nextNode);
+				Node.history.add(newState);
+				
 			}
 		}
 		
@@ -124,12 +133,13 @@ public class Solver {
 			temp = currNode.getState()[blankSpot+2];
 			newState[blankSpot+2] = 0;
 			newState[blankSpot]   = temp;
-			nextNode = new Node(newState);
-			
-			if (nextNode.isValid()){
+			//add to possible children if valid
+			if (currNode.isValid(newState)){
 				System.out.println("Moving downleft");
-				Node.history.add(nextNode);
+				nextNode = new Node(newState, currNode.getPath());
 				children.add(nextNode);
+				Node.history.add(newState);
+				
 			}
 		}
 		
@@ -139,12 +149,13 @@ public class Solver {
 			temp = currNode.getState()[blankSpot+4];
 			newState[blankSpot+4] = 0;
 			newState[blankSpot]   = temp;
-			nextNode = new Node(newState);
-			
-			if (nextNode.isValid()){
+			//add to possible children if valid
+			if (currNode.isValid(newState)){
 				System.out.println("Moving downright");
-				Node.history.add(nextNode);
+				nextNode = new Node(newState, currNode.getPath());
 				children.add(nextNode);
+				Node.history.add(newState);
+				
 			}
 		}
 		
@@ -154,12 +165,13 @@ public class Solver {
 			temp = currNode.getState()[blankSpot-4];
 			newState[blankSpot-4] = 0;
 			newState[blankSpot]   = temp;
-			nextNode = new Node(newState);
-			
-			if (nextNode.isValid()){
+			//add to possible children if valid
+			if (currNode.isValid(newState)){
 				System.out.println("Moving upleft");
-				Node.history.add(nextNode);
+				nextNode = new Node(newState, currNode.getPath());
 				children.add(nextNode);
+				Node.history.add(newState);
+				
 			}
 		}
 		
@@ -169,17 +181,17 @@ public class Solver {
 			temp = currNode.getState()[blankSpot-2];
 			newState[blankSpot-2] = 0;
 			newState[blankSpot]   = temp;
-			nextNode = new Node(newState);
-			
-			if (nextNode.isValid()){
+			//add to possible children if valid
+			if (currNode.isValid(newState)){
 				System.out.println("Moving upright");
-				Node.history.add(nextNode);
+				nextNode = new Node(newState, currNode.getPath());
 				children.add(nextNode);
+				Node.history.add(newState);
+				
 			}
 		}
 		
 		System.out.println("adding "+children.size()+" new nodes");
-		Node.history.add(currNode);
 		return children;
 	}
 	

@@ -18,7 +18,7 @@ public class Gui extends JFrame{
 		private Node displayedNode;
 		
 		//contents
-		private GridPanel 	 grid 				= new GridPanel();
+		private GridPanel 	 puzzlePanel		= new GridPanel();
 		private JRadioButton dfsButton 			= new JRadioButton("Depth-First Search");
 		private JRadioButton bfsButton 			= new JRadioButton("Breadth-First Search");
 		private JRadioButton aStarOneButton 	= new JRadioButton("A*1 Search");
@@ -38,6 +38,7 @@ public class Gui extends JFrame{
 		GridBagConstraints c = new GridBagConstraints();
 		
 		displayedNode = solv.createRandomNode(); //initial random node
+		
 		//display panel
 		c.gridx      = 0;
 		c.gridy      = 0;
@@ -46,7 +47,7 @@ public class Gui extends JFrame{
 		c.weightx    = 1;
 		c.weighty    = 1;
 		c.fill       = 1;
-		contentPane.add(grid, c);
+		contentPane.add(puzzlePanel, c);
 				
 		//radio buttons - search type options
 		ButtonGroup searchType = new ButtonGroup();
@@ -146,6 +147,7 @@ public class Gui extends JFrame{
 	}
 	private void resetButtonHandler(){
 		displayedNode = solv.createRandomNode();
+		update();
 	}
 	
 	private void goButtonHandler(){
@@ -170,7 +172,7 @@ public class Gui extends JFrame{
 	}
 	
 	private void update(){
-		grid.updateGrid(displayedNode.getState());
+		puzzlePanel.updateGrid(displayedNode.getState());
 		
 	}
 	
