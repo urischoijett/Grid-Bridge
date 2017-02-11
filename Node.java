@@ -183,6 +183,34 @@ public class Node {
 		
 	} 
 	
+	public int correctSpots(){
+		int cs =0;
+		for (int i=0; i<9; i++){
+			if (state[i] == Node.goalState[i]){
+				cs++;
+			}
+		}
+		return cs;
+	}
+	
+	public int totDistance(){
+		int td =0;
+		for (int i=0; i<9; i++){
+			if (state[i] == Node.goalState[i]){
+				td++;
+			}
+		}
+		return td;
+	}
+	
+	private int distToGoalSpot(int s1, int s2){ //where it is, where it should be (s1, s2)
+		if (s1==s2){
+			return 0;
+		}
+		
+		return 0;
+	}
+	
 	private int findBlank(int[] a){
 		int index = -1;
 		for (int i =0; i<a.length; i++){
@@ -194,10 +222,4 @@ public class Node {
 		return index;
 	}
 	
-	public void print(){
-		for (int i=0; i<9; i++){
-			System.out.print(state[i]+" ");
-		}
-	}
-
 };
